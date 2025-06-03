@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import Header from './components/Layout/Header';
+import HeaderBody from './components/Layout/HeaderBody';
+import Product from './components/Store/Product';
 
 function App() {
+  const [home, setHome]=useState(false);
+  const [store, setStore]=useState(true);
+  const [about, setAbout]=useState(false);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header isStore={store} />
+      {!home && <HeaderBody/>}
+      {store && <Product/>}
     </div>
   );
 }
