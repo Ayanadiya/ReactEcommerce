@@ -1,30 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
+import CartContext from "../../store/CartContext";
 import {Modal, Button, Container, Row, Col, Image, Form} from "react-bootstrap";
 
-const cartElements = [
-    {
-        title: 'Colors',
-        price: 100,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
-        quantity: 2,
-    },  
-    {
-        title: 'Black and white Colors',
-        price: 50,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-        quantity: 3,
-    },
-    {   
-        title: 'Yellow and Black Colors',
-        price: 70,
-        imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-        quantity: 1,
-    }
-]
-
 const Cart=(props)=>{
+    const cartctx=useContext(CartContext);
     const {showCart, onClick}=props;
-    const total=cartElements.reduce((total,item)=>total+(item.price*item.quantity),0);
+    const total=cartctx.cart.reduce((total,item)=>total+(item.price*item.quantity),0);
 
     return (
         <Modal show={showCart} onHide={onClick} size="lg" centered>
@@ -38,7 +19,7 @@ const Cart=(props)=>{
                         <Col>Price</Col>
                         <Col>Quantity</Col>
                     </Row>
-                    {cartElements.map((item,index)=>{
+                    {cartctx.cart.map((item,index)=>{
                         return(
                             <Row key={index} className="d-flex align-items-center">
                                 <Col className="d-flex align-items-center">

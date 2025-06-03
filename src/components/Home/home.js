@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import classes from './Home.module.css'
 
 const tours=[
     {
@@ -31,21 +32,23 @@ const tours=[
 const Home=(props)=>{
     return (
         <React.Fragment>
-            <div>
+            <div className={classes.container}>
                 <h2>Get our Latest Album</h2>
             </div>
             <Container>
                 <h3>TOURS</h3>
-                <Row>
+                <Col>
                     {tours.map((tour,index)=>{
-                        return <Col key={index}>
-                            <p>{tour.date}</p>
-                            <p>{tour.show}</p>
-                            <p>{tour.place}</p>
+                        return <Row key={index} className="d-flex justify-content-between mb-3">
+                            <Col>{tour.date}</Col>
+                            <Col>{tour.show}</Col>
+                            <Col>{tour.place}</Col>
+                            <Col>
                             <Button>BUY TICKETS</Button>
-                        </Col>
+                            </Col>  
+                        </Row>
                     })}
-                </Row>
+                </Col>
             </Container>
         </React.Fragment>
     )

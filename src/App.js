@@ -5,8 +5,9 @@ import HeaderBody from './components/Layout/HeaderBody';
 import Product from './components/Store/Product';
 import Footer from './components/Layout/Footer';
 import Cart from './components/Cart/Cart';
-import Home from './components/Home/home';
+import Home from './components/Home/Home';
 import About from './components/About/About';
+import CartProvider from './store/CartProvider';
 
 function App() {
   const [home, setHome]=useState(false);
@@ -37,6 +38,7 @@ function App() {
   }
   return (
     <div className="App">
+      <CartProvider>
       <Header 
       isStore={store} 
       onClick={showCartHandler} 
@@ -50,6 +52,7 @@ function App() {
       {home && <Home/>}
       {about && <About/>}
       <Footer/>
+      </CartProvider>
     </div>
   );
 }

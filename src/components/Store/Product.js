@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import CartContext from "../../store/CartContext";
 import classes from "./Product.module.css"
 const products= [
 {title: 'Colors',
@@ -24,12 +25,13 @@ imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
 ]
 
 const Product=(props)=>{
+    const cartctx=useContext(CartContext)
     return (
         <Container>
             <div>
                 <h2>Music</h2>
             </div>
-                <Row>
+                <Row className="d-flex align-items-center ">
                     {products.map((product,index)=>{
                        return (<Col key={index} md={6}>
                         <Card style={{ width: '18rem' }}>
@@ -37,7 +39,7 @@ const Product=(props)=>{
                             <Card.Img src={product.imageUrl} className={classes.zoomimage} />
                             <div className="d-flex justify-content-between align-items-center mt-3">
                                 <Card.Text>${product.price}</Card.Text>
-                                <Button>Add To Cart</Button>
+                                <Button onClick={()=>cartctx.addToCart(product)}>Add To Cart</Button>
                             </div>
                         </Card>
                        </Col>)
