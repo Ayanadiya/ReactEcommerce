@@ -1,0 +1,6 @@
+.footer{
+    background-color: aqua;
+    color: white;
+    height: 150px;
+    display: flex;
+}

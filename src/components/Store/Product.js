@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
-
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import classes from "./Product.module.css"
 const products= [
 {title: 'Colors',
 price: 100,
@@ -25,27 +25,29 @@ imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
 
 const Product=(props)=>{
     return (
-        <div>
+        <Container>
             <div>
                 <h2>Music</h2>
             </div>
-            <div>
-                <ul>
+                <Row>
                     {products.map((product,index)=>{
-                       return (<div key={index}>
+                       return (<Col key={index} md={6}>
                         <Card style={{ width: '18rem' }}>
                             <Card.Title>{product.title}</Card.Title>
-                            <Card.Img src={product.imageUrl} />
-                            <div>
-                                <Card.Text>{product.price}</Card.Text>
+                            <Card.Img src={product.imageUrl} className={classes.zoomimage} />
+                            <div className="d-flex justify-content-between align-items-center mt-3">
+                                <Card.Text>${product.price}</Card.Text>
                                 <Button>Add To Cart</Button>
                             </div>
                         </Card>
-                       </div>)
+                       </Col>)
                     })}
-                </ul>
-            </div>
-        </div>
+                </Row>
+                <div>
+                    <Button variant="secondary" onClick={props.onClick}>See the Cart</Button>
+                </div>
+        </Container>
+        
     )
 }
 

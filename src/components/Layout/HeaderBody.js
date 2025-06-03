@@ -3,7 +3,7 @@ import classes from './HeaderBody.module.css'
 
 const HeaderBody=(props)=>{
     return (
-        <div className={classes.container}>
+        <div className={classes.content}>
             <h1>The Generics</h1>
         </div>
     )

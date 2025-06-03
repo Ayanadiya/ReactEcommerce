@@ -2,4 +2,6 @@
     background-color: cadetblue;
     color: white;
     align-items: center;
+    align-content: center;
+    height: 150px;
 }
