@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import classes from './Home.module.css'
 
@@ -33,11 +33,17 @@ const Home=(props)=>{
 
     const [movies,setMovies]=useState([]);
     const [isLoading, setLoading]=useState(false);
+    const [error, setError]=useState(null);
     
     const fetchMoviesHandler=async()=>{
         try {
             setLoading(true)
+            setError(null)
             const response= await fetch('https://swapi.py4e.com/api/films/')
+            if(!response.ok)
+            {
+                throw new Error({message:"Something went wrong...Retrying"})
+            }
             const data= await response.json();
              const transformedMovies=data.results.map(movieData=>{
             return {
@@ -51,8 +57,32 @@ const Home=(props)=>{
           setLoading(false)
         } catch (error) {
             console.log(error);
+            setError("Something went wrong....Retrying");
             setLoading(false);
         }
+    }
+
+    useEffect(()=>{
+      if(error)
+      {
+        const timeoutId=setTimeout(()=>{
+           fetchMoviesHandler();
+        },5000)
+        return ()=>clearTimeout(timeoutId);
+      }
+    },[error])
+
+    let content=<p>No Movies</p>
+
+    if(error){
+        content=<>
+        <p>{error}</p>
+        <Button onClick>Cancel</Button>
+    </>
+    
+    if(isLoading)
+    {
+        content=<p>Loading....</p>
     }
 
     return (
@@ -89,8 +119,7 @@ const Home=(props)=>{
                 })}
                 </Col>
             </Container>}
-            {!isLoading && movies.length===0 && <p>No Movies</p>}
-            {isLoading && <p>Loading....</p>}
+            {content}
         </React.Fragment>
     )
 }
