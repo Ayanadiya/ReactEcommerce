@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import classes from './Home.module.css'
 
@@ -30,6 +30,27 @@ const tours=[
     }
 ]
 const Home=(props)=>{
+
+    const [movies,setMovies]=useState([]);
+    
+    const fetchMoviesHandler=async()=>{
+        try {
+            const response= await fetch('https://swapi.py4e.com/api/films/')
+            const data= await response.json();
+             const transformedMovies=data.results.map(movieData=>{
+            return {
+                id:movieData.episode_id,
+                title:movieData.title,
+                openingText:movieData.opening_crawl,
+                releaseDate:movieData.release_date
+            }
+          })
+          setMovies(transformedMovies)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <React.Fragment>
             <div className={classes.container}>
@@ -48,6 +69,20 @@ const Home=(props)=>{
                             </Col>  
                         </Row>
                     })}
+                </Col>
+            </Container>
+            <Button onClick={fetchMoviesHandler}>Get Movies</Button>
+            <Container>
+                <Col>
+                {movies.map((movie)=>{
+                    return (
+                        <Row key={movie.id}>
+                            <Col>{movie.title}</Col>
+                            <Col>{movie.openingText}</Col>
+                            <Col>{movie.releaseDate}</Col>
+                        </Row>
+                    )
+                })}
                 </Col>
             </Container>
         </React.Fragment>
