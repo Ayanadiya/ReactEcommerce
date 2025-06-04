@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import Header from './components/Layout/Header';
 import HeaderBody from './components/Layout/HeaderBody';
@@ -10,48 +11,43 @@ import About from './components/About/About';
 import CartProvider from './store/CartProvider';
 
 function App() {
-  const [home, setHome]=useState(false);
-  const [store, setStore]=useState(true);
-  const [about, setAbout]=useState(false);
-  const [showCart, setShowCart]=useState(false)
+  const [showCart, setShowCart]=useState(false);
 
-  const showHomeHandler=()=>{
-    setHome(true);
-    setStore(false);
-    setAbout(false)
-  }
-
-   const showStoreHandler=()=>{
-    setHome(false);
-    setStore(true);
-    setAbout(false)
-  }
-
-   const showAboutHandler=()=>{
-    setHome(false);
-    setStore(false);
-    setAbout(true)
-  }
-
-  const showCartHandler=()=>{
+   const showCartHandler=()=>{
     setShowCart(prev=>!prev);
   }
+
+  const router= createBrowserRouter([
+    {path:"/", element:(
+      <>
+      <Header onClick={showCartHandler} />
+      <Home />
+      <Footer/>
+      </>
+    )},
+    {path:"/store", element:(
+      <>
+      <Header onClick={showCartHandler} />
+      <HeaderBody />
+      <Product onClick={showCartHandler}/>
+      {showCart && <Cart showCart={showCart} onClick={showCartHandler} />}
+      <Footer/>
+      </>
+    )},
+    {path:"/about", element:(
+      <>
+      <Header onClick={showCartHandler} />
+      <HeaderBody/>
+      <About/>
+      <Footer/>
+      </>
+    ) },
+  ])
+
   return (
     <div className="App">
       <CartProvider>
-      <Header 
-      isStore={store} 
-      onClick={showCartHandler} 
-      getHome={showHomeHandler} 
-      getStore={showStoreHandler}
-      getAbout={showAboutHandler}
-      />
-      {!home && <HeaderBody/>}
-      {store && <Product onClick={showCartHandler}/>}
-      {showCart && <Cart showCart={showCart} onClick={showCartHandler} />}
-      {home && <Home/>}
-      {about && <About/>}
-      <Footer/>
+      <RouterProvider router={router}/>
       </CartProvider>
     </div>
   );
