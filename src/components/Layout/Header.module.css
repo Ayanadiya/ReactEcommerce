@@ -4,3 +4,13 @@
     display: flex;
     justify-content: space-around;
 }
+.link {
+    color:white;
+    text-decoration: none;
+    padding: 10px;
+}
+.active {
+    color:blue;
+    font-weight: bold;
+    border-bottom: 2px solid blue;
+}

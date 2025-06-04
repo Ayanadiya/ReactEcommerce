@@ -11,9 +11,15 @@ const Header=(props)=>{
     const isStorePage=location.pathname==="/store";
     return (
         <header className={classes.header}>
-           <NavLink to="/">HOME</NavLink>
-           <NavLink to="/store">STORE</NavLink>
-           <NavLink to="/about">ABOUT</NavLink>
+           <NavLink to="/" className={({isActive})=>
+           isActive ? `${classes.link}${classes.active}`:classes.link
+        }>HOME</NavLink>
+           <NavLink to="/store" className={({isActive})=>
+           isActive ? `${classes.link}${classes.active}`:classes.link
+        }>STORE</NavLink>
+           <NavLink to="/about" className={({isActive})=>
+           isActive ? `${classes.link}${classes.active}`:classes.link
+        }>ABOUT</NavLink>
             {isStorePage && <Button onClick={props.onClick}>Cart:{total}</Button>}
         </header>
     )
