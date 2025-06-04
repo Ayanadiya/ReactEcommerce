@@ -32,9 +32,11 @@ const tours=[
 const Home=(props)=>{
 
     const [movies,setMovies]=useState([]);
+    const [isLoading, setLoading]=useState(false);
     
     const fetchMoviesHandler=async()=>{
         try {
+            setLoading(true)
             const response= await fetch('https://swapi.py4e.com/api/films/')
             const data= await response.json();
              const transformedMovies=data.results.map(movieData=>{
@@ -46,8 +48,10 @@ const Home=(props)=>{
             }
           })
           setMovies(transformedMovies)
+          setLoading(false)
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }
 
@@ -72,7 +76,7 @@ const Home=(props)=>{
                 </Col>
             </Container>
             <Button onClick={fetchMoviesHandler}>Get Movies</Button>
-            <Container>
+           {!isLoading && <Container>
                 <Col>
                 {movies.map((movie)=>{
                     return (
@@ -84,7 +88,9 @@ const Home=(props)=>{
                     )
                 })}
                 </Col>
-            </Container>
+            </Container>}
+            {!isLoading && movies.length===0 && <p>No Movies</p>}
+            {isLoading && <p>Loading....</p>}
         </React.Fragment>
     )
 }
