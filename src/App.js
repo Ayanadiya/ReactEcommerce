@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Layout/Header';
 import HeaderBody from './components/Layout/HeaderBody';
@@ -9,6 +9,7 @@ import Cart from './components/Cart/Cart';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import CartProvider from './store/CartProvider';
+import Contact from './components/Contact/Contact';
 
 function App() {
   const [showCart, setShowCart]=useState(false);
@@ -17,37 +18,29 @@ function App() {
     setShowCart(prev=>!prev);
   }
 
-  const router= createBrowserRouter([
-    {path:"/", element:(
-      <>
-      <Header onClick={showCartHandler} />
-      <Home />
-      <Footer/>
-      </>
-    )},
-    {path:"/store", element:(
-      <>
-      <Header onClick={showCartHandler} />
-      <HeaderBody />
-      <Product onClick={showCartHandler}/>
-      {showCart && <Cart showCart={showCart} onClick={showCartHandler} />}
-      <Footer/>
-      </>
-    )},
-    {path:"/about", element:(
-      <>
-      <Header onClick={showCartHandler} />
-      <HeaderBody/>
-      <About/>
-      <Footer/>
-      </>
-    ) },
-  ])
 
   return (
     <div className="App">
       <CartProvider>
-      <RouterProvider router={router}/>
+      <Router>
+      <Header onClick={showCartHandler} />
+      <Route path="/">
+      <Home/>
+      </Route>
+      <Route path="/store">
+      <HeaderBody />
+      <Product onClick={showCartHandler}/>
+      {showCart && <Cart showCart={showCart} onClick={showCartHandler} />}
+      </Route>
+      <Route path="/about">
+      <HeaderBody/>
+      <About/>
+      </Route>
+      <Route path="/contact">
+      <Contact/>
+      </Route>
+      <Footer />
+      </Router>
       </CartProvider>
     </div>
   );

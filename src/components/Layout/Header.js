@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation,NavLink} from 'react-router-dom'
 import { Button } from "react-bootstrap";
 import classes from "./Header.module.css";
 import CartContext from "../../store/CartContext";
@@ -11,15 +11,10 @@ const Header=(props)=>{
     const isStorePage=location.pathname==="/store";
     return (
         <header className={classes.header}>
-           <NavLink to="/" className={({isActive})=>
-           isActive ? `${classes.link}${classes.active}`:classes.link
-        }>HOME</NavLink>
-           <NavLink to="/store" className={({isActive})=>
-           isActive ? `${classes.link}${classes.active}`:classes.link
-        }>STORE</NavLink>
-           <NavLink to="/about" className={({isActive})=>
-           isActive ? `${classes.link}${classes.active}`:classes.link
-        }>ABOUT</NavLink>
+           <NavLink to="/" className={classes.link} activeClassName={classes.active}>HOME</NavLink>
+           <NavLink to="/store" className={classes.link} activeClassName={classes.active}>STORE</NavLink>
+           <NavLink to="/about" className={classes.link} activeClassName={classes.active}>ABOUT</NavLink>
+           <NavLink to="/contact" className={classes.link} activeClassName={classes.active}>Contact</NavLink>
             {isStorePage && <Button onClick={props.onClick}>Cart:{total}</Button>}
         </header>
     )
