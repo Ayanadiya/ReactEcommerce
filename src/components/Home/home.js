@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef, useCallback, useMemo} from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import classes from './Home.module.css'
 
@@ -34,8 +34,9 @@ const Home=(props)=>{
     const [movies,setMovies]=useState([]);
     const [isLoading, setLoading]=useState(false);
     const [error, setError]=useState(null);
+    const retryTimeoutIdRef=useRef(null);
     
-    const fetchMoviesHandler=async()=>{
+    const fetchMoviesHandler=useCallback(async()=>{
         try {
             setLoading(true)
             setError(null)
@@ -60,6 +61,18 @@ const Home=(props)=>{
             setError("Something went wrong....Retrying");
             setLoading(false);
         }
+    },[])
+
+    useEffect(()=>{
+        fetchMoviesHandler();
+    },[fetchMoviesHandler]);
+
+    const cancelRetryHandler=()=>{
+        if(retryTimeoutIdRef.current){
+            clearTimeout(retryTimeoutIdRef.current);
+            retryTimeoutIdRef.current=null;
+        }
+        setError(null);
     }
 
     useEffect(()=>{
@@ -68,18 +81,28 @@ const Home=(props)=>{
         const timeoutId=setTimeout(()=>{
            fetchMoviesHandler();
         },5000)
+        retryTimeoutIdRef.current=timeoutId;
         return ()=>clearTimeout(timeoutId);
       }
-    },[error])
+    },[error, fetchMoviesHandler])
+
+    const movieList=useMemo(()=>{
+        return movies.map((movie)=>(
+                        <Row key={movie.id}>
+                            <Col>{movie.title}</Col>
+                            <Col>{movie.openingText}</Col>
+                            <Col>{movie.releaseDate}</Col>
+                        </Row>
+    ))},[movies])
 
     let content=<p>No Movies</p>
 
     if(error){
         content=<>
         <p>{error}</p>
-        <Button onClick>Cancel</Button>
+        <Button onClick={cancelRetryHandler}>Cancel</Button>
     </>
-    
+    }
     if(isLoading)
     {
         content=<p>Loading....</p>
@@ -107,22 +130,13 @@ const Home=(props)=>{
             </Container>
             <Button onClick={fetchMoviesHandler}>Get Movies</Button>
            {!isLoading && <Container>
-                <Col>
-                {movies.map((movie)=>{
-                    return (
-                        <Row key={movie.id}>
-                            <Col>{movie.title}</Col>
-                            <Col>{movie.openingText}</Col>
-                            <Col>{movie.releaseDate}</Col>
-                        </Row>
-                    )
-                })}
-                </Col>
+                <Col>{movieList}</Col>
             </Container>}
             {content}
         </React.Fragment>
     )
+
 }
 
 
-export default Home;
+export default Home
