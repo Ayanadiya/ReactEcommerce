@@ -1,6 +1,7 @@
-import React, {useEffect, useState, useRef, useCallback, useMemo} from "react";
+import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import classes from './Home.module.css'
+import Movies from "./Movies";
 
 const tours=[
     {
@@ -31,83 +32,7 @@ const tours=[
 ]
 const Home=(props)=>{
 
-    const [movies,setMovies]=useState([]);
-    const [isLoading, setLoading]=useState(false);
-    const [error, setError]=useState(null);
-    const retryTimeoutIdRef=useRef(null);
     
-    const fetchMoviesHandler=useCallback(async()=>{
-        try {
-            setLoading(true)
-            setError(null)
-            const response= await fetch('https://swapi.py4e.com/api/films/')
-            if(!response.ok)
-            {
-                throw new Error({message:"Something went wrong...Retrying"})
-            }
-            const data= await response.json();
-             const transformedMovies=data.results.map(movieData=>{
-            return {
-                id:movieData.episode_id,
-                title:movieData.title,
-                openingText:movieData.opening_crawl,
-                releaseDate:movieData.release_date
-            }
-          })
-          setMovies(transformedMovies)
-          setLoading(false)
-        } catch (error) {
-            console.log(error);
-            setError("Something went wrong....Retrying");
-            setLoading(false);
-        }
-    },[])
-
-    useEffect(()=>{
-        fetchMoviesHandler();
-    },[fetchMoviesHandler]);
-
-    const cancelRetryHandler=()=>{
-        if(retryTimeoutIdRef.current){
-            clearTimeout(retryTimeoutIdRef.current);
-            retryTimeoutIdRef.current=null;
-        }
-        setError(null);
-    }
-
-    useEffect(()=>{
-      if(error)
-      {
-        const timeoutId=setTimeout(()=>{
-           fetchMoviesHandler();
-        },5000)
-        retryTimeoutIdRef.current=timeoutId;
-        return ()=>clearTimeout(timeoutId);
-      }
-    },[error, fetchMoviesHandler])
-
-    const movieList=useMemo(()=>{
-        return movies.map((movie)=>(
-                        <Row key={movie.id}>
-                            <Col>{movie.title}</Col>
-                            <Col>{movie.openingText}</Col>
-                            <Col>{movie.releaseDate}</Col>
-                        </Row>
-    ))},[movies])
-
-    let content=<p>No Movies</p>
-
-    if(error){
-        content=<>
-        <p>{error}</p>
-        <Button onClick={cancelRetryHandler}>Cancel</Button>
-    </>
-    }
-    if(isLoading)
-    {
-        content=<p>Loading....</p>
-    }
-
     return (
         <React.Fragment>
             <div className={classes.container}>
@@ -128,11 +53,7 @@ const Home=(props)=>{
                     })}
                 </Col>
             </Container>
-            <Button onClick={fetchMoviesHandler}>Get Movies</Button>
-           {!isLoading && <Container>
-                <Col>{movieList}</Col>
-            </Container>}
-            {content}
+           <Movies/>
         </React.Fragment>
     )
 
