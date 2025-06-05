@@ -18,21 +18,14 @@ const Movies=()=>{
         try {
             setLoading(true)
             setError(null)
-            const response= await fetch('https://swapi.py4e.com/api/films/')
+            const response= await fetch("http://127.0.0.1:3000/myshop/movies")
             if(!response.ok)
             {
                 throw new Error({message:"Something went wrong...Retrying"})
             }
             const data= await response.json();
-             const transformedMovies=data.results.map(movieData=>{
-            return {
-                id:movieData.episode_id,
-                title:movieData.title,
-                openingText:movieData.opening_crawl,
-                releaseDate:movieData.release_date
-            }
-          })
-          setMovies(transformedMovies)
+            console.log(data);
+          setMovies(data);
           setLoading(false)
         } catch (error) {
             console.log(error);
@@ -64,16 +57,49 @@ const Movies=()=>{
       }
     },[error, fetchMoviesHandler])
 
+    const deleteMovieHandler= async (id)=>{
+        try {
+            const response=await fetch(`http://127.0.0.1:3000/myshop/deletemovie/${id}`,{
+                method:'DELETE'
+            })
+            if(!response.ok)
+            {
+                throw new Error('Failed to delete');
+            }
+            if(response.status===200)
+            {
+                const data=movies.filter((movie)=> movie._id!==id);
+                setMovies(data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const formatDate=(releaseDate)=>{
+        const date=new Date(releaseDate);
+        const day=String(date.getDate()).padStart(2,'0');
+        const month=String(date.getMonth()+1).padStart(2,'0');
+        const year=date.getFullYear();
+        return `${day}/${month}/${year}`
+    }
+
     const movieList=useMemo(()=>{
         return movies.map((movie)=>(
-                        <Row key={movie.id}>
+                        <Row key={movie._id}>
                             <Col>{movie.title}</Col>
                             <Col>{movie.openingText}</Col>
-                            <Col>{movie.releaseDate}</Col>
+                            <Col>{formatDate(movie.releaseDate)}</Col>
+                            <Col><Button onClick={()=>{deleteMovieHandler(movie._id)}}>Delete</Button></Col>
                         </Row>
     ))},[movies])
 
     let content=<p>No Movies</p>
+
+    if(movies.length>0)
+    {
+        content=<></>;
+    }
 
     if(error){
         content=<>
@@ -85,7 +111,7 @@ const Movies=()=>{
     {
         content=<p>Loading....</p>
     }
-    const formSubmitHandler=(event)=>{
+    const formSubmitHandler=async (event)=>{
         event.preventDefault();
         const newMovie={
             title,
@@ -93,6 +119,23 @@ const Movies=()=>{
             releaseDate
         }
         console.log(newMovie)
+        try {
+            const response= await fetch("http://127.0.0.1:3000/myshop/movie",{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(newMovie)
+            })
+            if(!response.ok)
+            {
+                throw new Error('Network response was not Ok')
+            }
+            const data=await response.json();
+            setMovies((prev)=>[...prev,data]);
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <>
