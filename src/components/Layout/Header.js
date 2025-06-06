@@ -11,7 +11,7 @@ const Header=(props)=>{
     const isStorePage=location.pathname==="/store";
     return (
         <header className={classes.header}>
-           <NavLink exact to="/" className={classes.link} activeClassName={classes.active}>HOME</NavLink>
+           <NavLink to="/home" className={classes.link} activeClassName={classes.active}>HOME</NavLink>
            <NavLink to="/store" className={classes.link} activeClassName={classes.active}>STORE</NavLink>
            <NavLink to="/about" className={classes.link} activeClassName={classes.active}>ABOUT</NavLink>
            <NavLink to="/contact" className={classes.link} activeClassName={classes.active}>Contact</NavLink>
