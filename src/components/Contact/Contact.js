@@ -18,7 +18,7 @@ const Contact=(props)=>{
             phone
         }
         try {
-             const response= await fetch("http://127.0.0.1:3000/myshop/contact", {
+             const response= await fetch("http://127.0.0.1:3000/myshop/contact/request", {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -44,11 +44,11 @@ const Contact=(props)=>{
                 <Form.Control type="text" value={name} onChange={nameChangeHandler}/>
             </Form.Group>
             <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" value={email} onChange={emailChangeHandler}/>
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" value={email} onChange={emailChangeHandler}/>
             </Form.Group>
             <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Phone</Form.Label>
                 <Form.Control type="tel" value={phone} onChange={phoneChangeHandler}/>
             </Form.Group>
             <Button variant="primary" onClick={formSubmitHandler}>Submit</Button>

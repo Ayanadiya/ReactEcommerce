@@ -92,7 +92,7 @@ const Movies=()=>{
                             <Col>{formatDate(movie.releaseDate)}</Col>
                             <Col><Button onClick={()=>{deleteMovieHandler(movie._id)}}>Delete</Button></Col>
                         </Row>
-    ))},[movies])
+    ))},[movies, deleteMovieHandler])
 
     let content=<p>No Movies</p>
 

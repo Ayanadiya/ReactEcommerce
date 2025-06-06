@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Header from './components/Layout/Header';
 import HeaderBody from './components/Layout/HeaderBody';
@@ -10,6 +10,7 @@ import Home from './components/Home/Home';
 import About from './components/About/About';
 import CartProvider from './store/CartProvider';
 import Contact from './components/Contact/Contact';
+import ProductPage from './components/Store/ProductPage';
 
 function App() {
   const [showCart, setShowCart]=useState(false);
@@ -24,7 +25,8 @@ function App() {
       <CartProvider>
       <Router>
       <Header onClick={showCartHandler} />
-      <Route path="/">
+      <Switch>
+      <Route exact path="/">
       <Home/>
       </Route>
       <Route path="/store">
@@ -39,6 +41,10 @@ function App() {
       <Route path="/contact">
       <Contact/>
       </Route>
+      <Route path="product/:productId">
+      <ProductPage/>
+      </Route>
+       </Switch>
       <Footer />
       </Router>
       </CartProvider>
