@@ -5,6 +5,7 @@ const LoginHeader=()=>{
     return(
         <header className={classes.header}>
             <NavLink to="/signUp" className={classes.link} activeClassName={classes.active}>SignUp</NavLink>
+            <NavLink to="/login" className={classes.link} activeClassName={classes.active}>Login</NavLink>
         </header>
     )
 }

@@ -18,7 +18,7 @@ const Movies=()=>{
         try {
             setLoading(true)
             setError(null)
-            const response= await fetch("http://127.0.0.1:3000/myshop/movies")
+            const response= await fetch("http://127.0.0.1:4000/myshop/movies")
             if(!response.ok)
             {
                 throw new Error({message:"Something went wrong...Retrying"})
@@ -59,7 +59,7 @@ const Movies=()=>{
 
     const deleteMovieHandler= async (id)=>{
         try {
-            const response=await fetch(`http://127.0.0.1:3000/myshop/deletemovie/${id}`,{
+            const response=await fetch(`http://127.0.0.1:4000/myshop/deletemovie/${id}`,{
                 method:'DELETE'
             })
             if(!response.ok)

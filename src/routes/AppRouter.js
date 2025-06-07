@@ -18,7 +18,7 @@ function AppRouter() {
 
   const showCartHandler = () => setShowCart(prev => !prev);
 
-  const isInitialPage = location.pathname === '/' || location.pathname === '/signUp';
+  const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
 
   return (
     <>
@@ -30,6 +30,9 @@ function AppRouter() {
         </Route>
         <Route path="/signUp">
           <SignUpForm />
+        </Route>
+        <Route path="/login">
+        <SignUpForm />
         </Route>
         <Route path="/store">
           <HeaderBody />

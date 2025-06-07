@@ -10,11 +10,13 @@ const Product=(props)=>{
 
     const fetchProduct= async()=>{
          try {
+            console.log("sending request to backend");
             const response= await fetch("http://127.0.0.1:3000/myshop/store/products");
             if(!response.ok)
             {
                 throw new Error("Response was not OK")
             }
+            console.log(response);
             const data=await response.json();
             setProduct(data);
         } catch (error) {
