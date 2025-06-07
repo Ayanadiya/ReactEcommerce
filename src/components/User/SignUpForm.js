@@ -1,9 +1,12 @@
 import { Form, Button, Container } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import AuthContext from "../../store/AuthContext";
+
 
 
 const SignUpForm=()=>{
+    const authctx=useContext(AuthContext);
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
     
@@ -36,8 +39,10 @@ const SignUpForm=()=>{
         }
         const data=await response.json();
         alert(data.message);
-        localStorage.setItem("token",data.token);
+        // localStorage.setItem("token",data.token);
+        authctx.login(data.token);
         window.location='/home';
+        
        } catch (error) {
         console.log(error);
        }
