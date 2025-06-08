@@ -1,0 +1,11 @@
+.container{
+ display: flex;
+ flex-direction: column;
+ height: 100vh;
+ position: relative;
+}
+.logout{
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}

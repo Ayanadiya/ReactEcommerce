@@ -17,17 +17,17 @@ import Profile from '../components/Profile/Profile';
 
 function AppRouter() {
   const authctx=useContext(AuthContext)
-  const location = useLocation();
+  //const location = useLocation();
   const [showCart, setShowCart] = useState(false);
 
   const showCartHandler = () => setShowCart(prev => !prev);
   const islogged=authctx.isLoggedIn
 
-   const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
+  // const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
 
   return (
     <>
-      {isInitialPage ? <LoginHeader /> : <Header onClick={showCartHandler} />}
+      {!islogged ? <LoginHeader /> : <Header onClick={showCartHandler} />}
 
       <Switch>
         <Route exact path="/home">

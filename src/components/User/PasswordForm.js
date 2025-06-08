@@ -8,8 +8,10 @@ const PasswordForm=()=>{
 
     const passwordChangeHandler=e=>setPassword(e.target.value);
 
-    const formSubmitHandler= async()=>{
+    const formSubmitHandler= async(event)=>{
         try {
+            event.preventDefault();
+            console.log(authctx.token);
             const response= await fetch("http://127.0.0.1:4000/myshop/user/update/password",{
                 method:"Post",
                 headers:{
@@ -23,6 +25,7 @@ const PasswordForm=()=>{
                 throw new Error('Response was not ok');
             }
             const data=await response.json();
+            console.log(data);
             alert(data.message);
             authctx.login(data.token);
         } catch (error) {

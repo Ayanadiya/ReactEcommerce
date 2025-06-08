@@ -12,9 +12,9 @@ export const AuthProvider=(props)=>{
     const [token,setToken]=useState(null);
     const [loggedin, setLogin]=useState(false);
     
-    const login=(idtoken)=>{
+    const loginhandler=(idtoken)=>{
         console.log(idtoken)
-        setToken(token);
+        setToken(idtoken);
         setLogin(true);
     }
     const logout=()=>{
@@ -25,7 +25,7 @@ export const AuthProvider=(props)=>{
     const authValue={
         token:token,
         isLoggedIn:loggedin,
-        login:login,
+        login:loginhandler,
         logout:logout
     }
 

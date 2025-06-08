@@ -32,17 +32,14 @@ const SignUpForm=()=>{
             },
             body:JSON.stringify(user),
         });
-        if(response.status===404)
-        {
-            const data=await response.json();
-            alert(data.message);
-        }
         const data=await response.json();
         alert(data.message);
         // localStorage.setItem("token",data.token);
-        authctx.login(data.token);
-        window.location='/home';
-        
+        if(response.status===200)
+        {
+            authctx.login(data.token);
+            window.location='/home';
+        }
        } catch (error) {
         console.log(error);
        }
