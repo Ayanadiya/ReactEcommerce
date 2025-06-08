@@ -40,7 +40,7 @@ const SignUpForm=()=>{
         if(response.status===200)
         {
             authctx.login(data.token);
-            window.location='/home';
+            window.location='/store';
         }
        } catch (error) {
         console.log(error);

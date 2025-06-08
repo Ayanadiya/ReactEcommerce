@@ -7,7 +7,7 @@ const ProductPage=()=>{
     console.log(productId);
     const fetchProduct= async(productId)=>{
          try {
-            const response= await fetch(`http://127.0.0.1:3000/myshop/store/product/${productId}`);
+            const response= await fetch(`http://127.0.0.1:4000/myshop/store/product/${productId}`);
             if(!response.ok)
             {
                 throw new Error("Response was not OK")
