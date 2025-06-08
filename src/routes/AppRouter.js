@@ -12,21 +12,22 @@ import ProductPage from '../components/Store/ProductPage';
 import LoginHeader from '../components/Layout/LoginHeader';
 import SignUpForm from '../components/User/SignUpForm';
 import AuthContext from '../store/AuthContext';
+import Profile from '../components/Profile/Profile';
 
 
 function AppRouter() {
   const authctx=useContext(AuthContext)
-  //const location = useLocation();
+  const location = useLocation();
   const [showCart, setShowCart] = useState(false);
 
   const showCartHandler = () => setShowCart(prev => !prev);
   const islogged=authctx.isLoggedIn
 
-  // const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
+   const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
 
   return (
     <>
-      {!islogged ? <LoginHeader /> : <Header onClick={showCartHandler} />}
+      {isInitialPage ? <LoginHeader /> : <Header onClick={showCartHandler} />}
 
       <Switch>
         <Route exact path="/home">
@@ -52,6 +53,9 @@ function AppRouter() {
         </Route>
         <Route path="/product/:productId">
           <ProductPage />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
       </Switch>
 
