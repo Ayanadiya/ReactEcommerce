@@ -6,6 +6,7 @@ const Logout=()=>{
     const authctx=useContext(AuthContext);
 
     const logoutHandler=()=>{
+        localStorage.removeItem("token");
         authctx.logout();
         window.location="/";
     }

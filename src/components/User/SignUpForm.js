@@ -1,6 +1,6 @@
 import { Form, Button, Container } from "react-bootstrap";
 import { useState, useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, NavLink } from "react-router-dom";
 import AuthContext from "../../store/AuthContext";
 
 
@@ -14,6 +14,8 @@ const SignUpForm=()=>{
     const isLogin= location.pathname==='/login';
     const title=isLogin?'Login': 'Sign Up';
     const endpoint=isLogin?"http://127.0.0.1:4000/myshop/user/login":"http://127.0.0.1:4000/myshop/user/signUp";
+    const path= isLogin?"/signUp":"/login";
+    const linkName= isLogin?"Get Signup": "Login";
 
     const emailChangeHandler=e=>setEmail(e.target.value);
     const passwordChangeHandler=e=>setPassword(e.target.value);
@@ -34,7 +36,7 @@ const SignUpForm=()=>{
         });
         const data=await response.json();
         alert(data.message);
-        // localStorage.setItem("token",data.token);
+        localStorage.setItem("token",data.token);
         if(response.status===200)
         {
             authctx.login(data.token);
@@ -61,6 +63,7 @@ const SignUpForm=()=>{
                     <Form.Control type="password" value={password} onChange={passwordChangeHandler} />
                 </Form.Group>
                 <Button className="w-100" type="submit" onClick={formSubmitHandler}>Submit</Button>
+                <NavLink to={path} >{linkName}</NavLink>
             </Form>
         </Container>    
     )

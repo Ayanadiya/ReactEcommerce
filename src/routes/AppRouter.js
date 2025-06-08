@@ -21,7 +21,7 @@ function AppRouter() {
   const [showCart, setShowCart] = useState(false);
 
   const showCartHandler = () => setShowCart(prev => !prev);
-  const islogged=authctx.isLoggedIn
+  const islogged=localStorage.getItem('token')
 
   // const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
 
@@ -30,33 +30,33 @@ function AppRouter() {
       {!islogged ? <LoginHeader /> : <Header onClick={showCartHandler} />}
 
       <Switch>
-        <Route exact path="/home">
+       { islogged &&<Route exact path="/">
           <Home />
-        </Route>
+        </Route>}
         <Route path="/signUp">
           <SignUpForm />
         </Route>
         <Route path="/login">
         <SignUpForm />
         </Route>
-        <Route path="/store">
+        {islogged &&<Route path="/store">
           <HeaderBody />
           <Product onClick={showCartHandler} />
           {showCart && <Cart showCart={showCart} onClick={showCartHandler} />}
-        </Route>
-        <Route path="/about">
+        </Route>}
+        {islogged &&<Route path="/about">
           <HeaderBody />
           <About />
-        </Route>
-        <Route path="/contact">
+        </Route>}
+        {islogged &&<Route path="/contact">
           <Contact />
-        </Route>
-        <Route path="/product/:productId">
+        </Route>}
+        {islogged &&<Route path="/product/:productId">
           <ProductPage />
-        </Route>
-        <Route path="/profile">
+        </Route>}
+        {islogged &&<Route path="/profile">
           <Profile />
-        </Route>
+        </Route>}
       </Switch>
 
       <Footer />
