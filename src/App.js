@@ -3,14 +3,17 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import CartProvider from './store/CartProvider';
 import AppRouter from './routes/AppRouter';
+import AutoLogout from './components/User/AutoLogout';
 
 function App() {
   return (
     <div className="App">
       <CartProvider>
-      <Router>
-      <AppRouter/>
-      </Router>
+        <Router>
+          <AutoLogout>
+            <AppRouter/>
+          </AutoLogout>
+        </Router>
       </CartProvider>
     </div>
   );

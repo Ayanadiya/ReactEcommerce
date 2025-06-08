@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import React, { useState} from 'react';
+import { Route, Switch} from 'react-router-dom';
 import Header from '../components/Layout/Header';
 import HeaderBody from '../components/Layout/HeaderBody';
 import Product from '../components/Store/Product';
@@ -11,20 +11,18 @@ import Contact from '../components/Contact/Contact';
 import ProductPage from '../components/Store/ProductPage';
 import LoginHeader from '../components/Layout/LoginHeader';
 import SignUpForm from '../components/User/SignUpForm';
-import AuthContext from '../store/AuthContext';
 import Profile from '../components/Profile/Profile';
 
 
 function AppRouter() {
-  const authctx=useContext(AuthContext)
-  //const location = useLocation();
+  
+  
   const [showCart, setShowCart] = useState(false);
 
   const showCartHandler = () => setShowCart(prev => !prev);
   const islogged=localStorage.getItem('token')
 
-  // const isInitialPage = location.pathname === '/' || location.pathname === '/signUp' || location.pathname==='/login';
-
+ 
   return (
     <>
       {!islogged ? <LoginHeader /> : <Header onClick={showCartHandler} />}
